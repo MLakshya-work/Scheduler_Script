@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DKron Job Data</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1>DKron Job Data</h1>
+    <div class="controls">
+        <form action="{{ url_for('routes.reload_data') }}" method="get">
+            <button type="submit" class="reload-button">Reload Data</button>
+        </form>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>Display Name</th>
+                <th>Schedule</th>
+                <th>Timezone</th>
+                <th>Status</th>
+                <th>Success Count</th>
+                <th>Error Count</th>
+                <th>Last Success</th>
+                <th>Next Scheduled Run</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for job in job_data %}
+            <tr>
+                <td>{{ job.displayname }}</td>
+                <td>{{ job.schedule }}</td>
+                <td>{{ job.timezone if job.timezone else 'N/A' }}</td>
+                <td class="status {{ job.status }}">{{ job.status }}</td>
+                <td>{{ job.success_count }}</td>
+                <td>{{ job.error_count }}</td>
+                <td>{{ job.last_success }}</td>
+                <td>{{ job.next }}</td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="8">No job data available</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
+
